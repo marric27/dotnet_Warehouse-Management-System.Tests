@@ -1,0 +1,61 @@
+## Build output
+bin/
+obj/
+
+## Visual Studio
+.vs/
+.vscode/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+## Rider
+.idea/
+
+## Logs
+*.log
+
+## NuGet
+*.nupkg
+packages/
+# Backup of packages folder
+*.snupkg
+
+# NuGet global packages
+# (if you use local nuget cache in solution folder)
+.nuget/
+
+## Dotnet tools
+.dotnet/
+
+## Publish output
+publish/
+*.Publish.xml
+
+## Rider & Resharper
+_ReSharper*/
+*.DotSettings.user
+
+## OS files
+.DS_Store
+Thumbs.db
+
+## User-specific files
+*.local
+*.env
+appsettings.*.json  # se vuoi escludere versioni locali
+
+## Test results
+TestResults/
+*.trx
+*.coverage
+
+## Temporary files
+*.tmp
+*.bak
+*.swp
+
+## JetBrains Rider
+.idea/
+*.sln.iml
