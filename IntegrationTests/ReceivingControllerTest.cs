@@ -17,7 +17,7 @@ namespace dotnet_Warehouse_Management_System.Tests.IntegrationTests
         {
             return new GrnItemRequestDto
             {
-                ProductCode = "TestCode",
+                ProductCode = "PROD-001",
                 ExpectedQty = 10,
                 ReceivedQty = 10,
                 CompliantQty = 10,

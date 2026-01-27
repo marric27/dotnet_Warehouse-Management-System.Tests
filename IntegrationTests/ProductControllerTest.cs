@@ -61,7 +61,7 @@ namespace dotnet_Warehouse_Management_System.Tests.IntegrationTests
             };
 
             // Act: GET by code
-            var getResponse = await _client.GetAsync($"/api/v1/products/code/TestCode");
+            var getResponse = await _client.GetAsync($"/api/v1/products/code/PROD-001");
 
             // Assert
             getResponse.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -70,7 +70,7 @@ namespace dotnet_Warehouse_Management_System.Tests.IntegrationTests
             prod.Should().NotBeNull();
             prod.Name.Should().Be("Test Product");
             prod.Category.Should().Be(Common.Category.STANDARD);
-            prod.Code.Should().Be("TestCode");
+            prod.Code.Should().Be("PROD-001");
         }
 
 

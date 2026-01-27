@@ -1,6 +1,7 @@
 ﻿using dotnet_Warehouse_Management_System.Common;
 using dotnet_Warehouse_Management_System.Data;
 using dotnet_Warehouse_Management_System.GoodsIn.Entities;
+using dotnet_Warehouse_Management_System.Outbound.Entities;
 using dotnet_Warehouse_Management_System.Products.Entities;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -37,8 +38,19 @@ namespace dotnet_Warehouse_Management_System.Tests.IntegrationTests
                     var db = scope.ServiceProvider.GetRequiredService<ApplicationDBContext>();
                     db.Database.EnsureCreated();
 
-                    db.Products.Add(new Product { Code = "TestCode", Name = "Test Product", Category = Common.Category.STANDARD });
+                    db.Products.Add(new Product { Code = "PROD-001", Name = "Test Product", Category = Common.Category.STANDARD });
                     db.Grns.Add(new Grn { Code = "GRN-001", Supplier = "Test Supplier", State = State.OPEN, ReceivingDate = DateTime.Now, Items = [] });
+                    db.Orders.Add(new Order{Code = "ORD-001", CustomerCode = "CUST-001", State = OrderState.OPEN, SalesOrderLineList = [
+                        new SalesOrderLine
+                        {
+                            SalesOrderLineNumber = 1,
+                            ProductCode = "PROD-001",
+                            Quantity = 10,
+                            Status = OrderState.OPEN,
+                            OrderId = 1
+                        }] 
+                    });
+
                     db.SaveChanges();
                 }
             });
