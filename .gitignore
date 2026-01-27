@@ -50,6 +50,7 @@ appsettings.*.json  # se vuoi escludere versioni locali
 TestResults/
 *.trx
 *.coverage
+CoverageReport/**
 
 ## Temporary files
 *.tmp
@@ -59,3 +60,4 @@ TestResults/
 ## JetBrains Rider
 .idea/
 *.sln.iml
+

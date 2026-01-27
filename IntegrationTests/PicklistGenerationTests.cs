@@ -40,12 +40,5 @@ namespace dotnet_Warehouse_Management_System.Tests.IntegrationTests
             item.State.Should().Be(Common.PicklistItemState.OPEN);
         }
 
-
-
-
-
-
-
-
     }
 }

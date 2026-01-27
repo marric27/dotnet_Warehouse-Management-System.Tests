@@ -32,11 +32,6 @@ namespace dotnet_Warehouse_Management_System.Tests.IntegrationTests
         {
             // Arrange
             var newProduct = CreateProductRequestDto();
-            var options = new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true,
-                Converters = { new JsonStringEnumConverter() }
-            };
 
             // Act
             var createResponse = await _client.PostAsJsonAsync("/api/v1/products", newProduct);
@@ -44,7 +39,7 @@ namespace dotnet_Warehouse_Management_System.Tests.IntegrationTests
             // Assert
             createResponse.StatusCode.Should().Be(HttpStatusCode.Created);
 
-            var createdProduct = await createResponse.Content.ReadFromJsonAsync<ProductResponseDto>(options);
+            var createdProduct = await createResponse.Content.ReadFromJsonWithEnumAsync<ProductResponseDto>();
             createdProduct.Should().NotBeNull();
             createdProduct.Name.Should().Be("Test Product");
             createdProduct.Category.Should().Be(Common.Category.STANDARD);

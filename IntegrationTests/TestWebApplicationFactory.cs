@@ -1,4 +1,5 @@
 ﻿using dotnet_Warehouse_Management_System.Common;
+using dotnet_Warehouse_Management_System.Customers.Entities;
 using dotnet_Warehouse_Management_System.Data;
 using dotnet_Warehouse_Management_System.GoodsIn.Entities;
 using dotnet_Warehouse_Management_System.Outbound.Entities;
@@ -50,6 +51,19 @@ namespace dotnet_Warehouse_Management_System.Tests.IntegrationTests
                             OrderId = 1
                         }] 
                     });
+
+                    db.Customers.Add(new Customer
+                    {
+                        Code = "CUST-001",
+                        Name = "Test",
+                        Surname = "Customer",
+                        ShippingAddress = "123 Test Street",
+                        BillingAddress = "123 Test Street",
+                        Email = "test.customer@example.com",
+                        TaxCode = "TSTCDE01X23X",
+                    });
+
+                    db.Products.Add(new Product{Code = "PROD-001", Name = "Test Product", Category = Common.Category.STANDARD});
 
                     db.SaveChanges();
                 }
