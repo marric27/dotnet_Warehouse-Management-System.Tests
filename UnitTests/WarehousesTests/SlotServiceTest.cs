@@ -35,7 +35,7 @@ namespace dotnet_Warehouse_Management_System.Tests.UnitTests.WarehousesTests
             // Arrange
             var slot = createSlot();
             _slotRepository
-                .Setup(x => x.GetByCodeAsync("code"))
+                .Setup(x => x.GetByCodeAsync("code", false))
                 .ReturnsAsync(slot);
 
             // Act
@@ -50,7 +50,7 @@ namespace dotnet_Warehouse_Management_System.Tests.UnitTests.WarehousesTests
         {
             // Arrange
             _slotRepository
-                .Setup(x => x.GetByCodeAsync("code"))
+                .Setup(x => x.GetByCodeAsync("code", false))
                 .ReturnsAsync((Slot?)null);
 
             // Act
@@ -82,17 +82,17 @@ namespace dotnet_Warehouse_Management_System.Tests.UnitTests.WarehousesTests
         public async Task DeleteAsync_ShouldReturnTrue_WhenSlotExistsAndIsDeleted()
         {
             // Arrange
-            var slot = createSlot(); // Immagino restituisca un oggetto con Code popolato
+            var slot = createSlot();
             var slotCode = slot.Code;
 
             // Setup: il service prima controlla se esiste
             _slotRepository
-                .Setup(x => x.GetByCodeAsync(slotCode))
+                .Setup(x => x.GetByCodeAsync(slotCode, true))
                 .ReturnsAsync(slot);
 
             // Setup: esecuzione della cancellazione
             _slotRepository
-                .Setup(x => x.DeleteAsync(slotCode))
+                .Setup(x => x.DeleteAsync(slot))
                 .Returns(Task.CompletedTask);
 
             // Act
@@ -102,7 +102,7 @@ namespace dotnet_Warehouse_Management_System.Tests.UnitTests.WarehousesTests
             result.Should().BeTrue(); // Il service restituisce bool
 
             // Verifica che il repository sia stato chiamato esattamente una volta con il codice corretto
-            _slotRepository.Verify(x => x.DeleteAsync(slotCode), Times.Once);
+            _slotRepository.Verify(x => x.DeleteAsync(slot), Times.Once);
         }
 
         [Fact]
@@ -112,7 +112,7 @@ namespace dotnet_Warehouse_Management_System.Tests.UnitTests.WarehousesTests
             string nonExistentCode = "NON-EXISTENT";
 
             _slotRepository
-                .Setup(x => x.GetByCodeAsync(nonExistentCode))
+                .Setup(x => x.GetByCodeAsync(nonExistentCode, true))
                 .ReturnsAsync((Slot)null); // Simula slot non trovato
 
             // Act
@@ -122,7 +122,7 @@ namespace dotnet_Warehouse_Management_System.Tests.UnitTests.WarehousesTests
             result.Should().BeFalse();
 
             // Verifica che DeleteAsync NON sia mai stato chiamato se lo slot non esiste
-            _slotRepository.Verify(x => x.DeleteAsync(It.IsAny<string>()), Times.Never);
+            _slotRepository.Verify(x => x.DeleteAsync(It.IsAny<Slot>()), Times.Never);
         }
 
 
