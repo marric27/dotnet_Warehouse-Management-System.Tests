@@ -79,15 +79,50 @@ namespace dotnet_Warehouse_Management_System.Tests.UnitTests.WarehousesTests
         }
 
         [Fact]
-        public async Task DeleteAsync_ShouldDeleteSlot()
+        public async Task DeleteAsync_ShouldReturnTrue_WhenSlotExistsAndIsDeleted()
         {
-            var slot = createSlot();
-            _slotRepository
-                .Setup(x => x.DeleteAsync(slot.Code))
-                .ReturnsAsync(slot);
-            var result = await _slotService.DeleteAsync(slot.Code);
+            // Arrange
+            var slot = createSlot(); // Immagino restituisca un oggetto con Code popolato
+            var slotCode = slot.Code;
 
-            result!.Code.Should().Be(slot.Code);
+            // Setup: il service prima controlla se esiste
+            _slotRepository
+                .Setup(x => x.GetByCodeAsync(slotCode))
+                .ReturnsAsync(slot);
+
+            // Setup: esecuzione della cancellazione
+            _slotRepository
+                .Setup(x => x.DeleteAsync(slotCode))
+                .Returns(Task.CompletedTask);
+
+            // Act
+            var result = await _slotService.DeleteAsync(slotCode);
+
+            // Assert
+            result.Should().BeTrue(); // Il service restituisce bool
+
+            // Verifica che il repository sia stato chiamato esattamente una volta con il codice corretto
+            _slotRepository.Verify(x => x.DeleteAsync(slotCode), Times.Once);
+        }
+
+        [Fact]
+        public async Task DeleteAsync_ShouldReturnFalse_WhenSlotDoesNotExist()
+        {
+            // Arrange
+            string nonExistentCode = "NON-EXISTENT";
+
+            _slotRepository
+                .Setup(x => x.GetByCodeAsync(nonExistentCode))
+                .ReturnsAsync((Slot)null); // Simula slot non trovato
+
+            // Act
+            var result = await _slotService.DeleteAsync(nonExistentCode);
+
+            // Assert
+            result.Should().BeFalse();
+
+            // Verifica che DeleteAsync NON sia mai stato chiamato se lo slot non esiste
+            _slotRepository.Verify(x => x.DeleteAsync(It.IsAny<string>()), Times.Never);
         }
 
 

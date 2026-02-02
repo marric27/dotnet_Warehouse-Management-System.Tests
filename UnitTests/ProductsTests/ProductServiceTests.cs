@@ -48,7 +48,7 @@ namespace dotnet_Warehouse_Management_System.Tests.UnitTests.ProductsTests
         {
             // Arrange
             var product = new Product { Name = "Prod1" };
-            _repoMock.Setup(r => r.GetByCodeAsync("CODE1"))
+            _repoMock.Setup(r => r.GetByCodeAsync("CODE1", false))
                      .ReturnsAsync(product);
 
             // Act
@@ -63,7 +63,7 @@ namespace dotnet_Warehouse_Management_System.Tests.UnitTests.ProductsTests
         public async Task GetByCodeAsync_ProductNotExists_ShouldReturnNull()
         {
             // Arrange
-            _repoMock.Setup(r => r.GetByCodeAsync("UNKNOWN"))
+            _repoMock.Setup(r => r.GetByCodeAsync("UNKNOWN", false))
                      .ReturnsAsync((Product?)null);
 
             // Act

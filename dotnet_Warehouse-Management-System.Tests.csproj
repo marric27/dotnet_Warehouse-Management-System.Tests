@@ -28,7 +28,7 @@
   </ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\dotnet_Warehouse_Management_System\dotnet_Warehouse-Management-System.csproj" />
+		<ProjectReference Include="..\dotnet_Warehouse-Management-System\dotnet_Warehouse-Management-System.csproj" />
 	</ItemGroup>
 
 

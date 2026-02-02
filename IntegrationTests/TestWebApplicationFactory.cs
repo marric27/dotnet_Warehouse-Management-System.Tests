@@ -4,6 +4,7 @@ using dotnet_Warehouse_Management_System.Data;
 using dotnet_Warehouse_Management_System.GoodsIn.Entities;
 using dotnet_Warehouse_Management_System.Outbound.Entities;
 using dotnet_Warehouse_Management_System.Products.Entities;
+using dotnet_Warehouse_Management_System.Warehouses.Entities;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Text;
+using static System.Reflection.Metadata.BlobBuilder;
 
 namespace dotnet_Warehouse_Management_System.Tests.IntegrationTests
 {
@@ -64,7 +66,27 @@ namespace dotnet_Warehouse_Management_System.Tests.IntegrationTests
                     });
 
                     db.Products.Add(new Product{Code = "PROD-001", Name = "Test Product", Category = Common.Category.STANDARD});
+                    var slot = new Slot
+                    {
+                        Code = "SLOT-A1",
+                        PickingSequence = 10,
+                        Capacity = 100,
+                        Category = Category.STANDARD
+                    };
+                    db.Slots.Add(slot);
 
+                    db.SaveChanges();
+
+                    db.StockUnits.Add(new StockUnit
+                    {
+                        Code = "STK-001",
+                        ProductCode = "PROD-001",
+                        Quantity = 100,
+                        SlotId = slot.Id,
+                        BatchNumber = "BATCH-01",
+                        ExpirationDate = DateTime.Now.AddYears(1),
+                        Category = Category.STANDARD
+                    });
                     db.SaveChanges();
                 }
             });

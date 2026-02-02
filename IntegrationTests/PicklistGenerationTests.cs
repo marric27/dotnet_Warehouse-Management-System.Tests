@@ -35,8 +35,8 @@ namespace dotnet_Warehouse_Management_System.Tests.IntegrationTests
             picklist.pickListItemList.Should().HaveCount(1);
 
             var item = picklist.pickListItemList.First();
-            item.productCode.Should().Be("PROD-001");
-            item.salesOrderCode.Should().Be("ORD-001");
+            item.ProductCode.Should().Be("PROD-001");
+            item.SalesOrderCode.Should().Be("ORD-001");
             item.State.Should().Be(Common.PicklistItemState.OPEN);
         }
 
